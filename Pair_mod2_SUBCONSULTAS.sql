@@ -49,3 +49,20 @@ WHERE unit_price IN (SELECT unit_price
 						ORDER BY unit_price desc)
                         LIMIT 10;
 
+/*____ejercicio 7____*/   
+                
+SELECT PRODUCTS.product_name , SUM(order_details.quantity)
+FROM PRODUCTS
+INNER JOIN order_details
+ON PRODUCTS.product_id = order_details.product_id
+GROUP BY PRODUCTS.product_id
+HAVING SUM(order_details.quantity) >= (SELECT MAX(SUMAPRODUCTOS) AS MAXIMO
+										FROM( 
+												SELECT SUM(quantity) AS SUMAPRODUCTOS
+												FROM order_details
+												GROUP BY product_id)
+                                            AS SUBQUERI);
+
+
+
+
